@@ -91,9 +91,9 @@ class Asset < ActiveRecord::Base
       end
  
       options = { :conditions => @conditions,
-                  :order => 'created_at DESC',
-                  :page => page,
-                  :per_page => 10 }
+                  :order      => 'created_at DESC',
+                  :page       => page,
+                  :per_page   => Radiant::Config["admin.pagination.per_page"] || 10 }
  
       @file_types = filter.blank? ? [] : filter.keys
       if not @file_types.empty?
