@@ -156,6 +156,20 @@ class Asset < ActiveRecord::Base
     def thumbnail_definitions
       thumbnail_sizes
     end
+
+    def s3_credentials
+      path = "#{RAILS_ROOT}/config/initializers/s3.yml"
+      
+      unless File.exists?(path)
+        path = {
+          :bucket            => Radiant::Config["assets.s3.bucket"],
+          :access_key_id     => Radiant::Config["assets.s3.key"],
+          :secret_access_key => Radiant::Config["assets.s3.secret"]
+        }        
+      end
+      
+      path
+    end
  
   private
     def additional_thumbnails
@@ -170,11 +184,7 @@ class Asset < ActiveRecord::Base
                     :styles => lambda { thumbnail_definitions },                      # and this lets extensions add thumbnailers (and also usefully defers the call)
                     :whiny => false,
                     :storage => Radiant::Config["assets.storage"] == "s3" ? :s3 : :filesystem, 
-                    :s3_credentials => {
-                      :access_key_id => Radiant::Config["assets.s3.key"] || ENV['S3_KEY'],
-                      :secret_access_key => Radiant::Config["assets.s3.secret"] || ENV['S3_SECRET']
-                    },
-                    :bucket => Radiant::Config["assets.s3.bucket"],
+                    :s3_credentials => s3_credentials,
                     :url => Radiant::Config["assets.url"] ? Radiant::Config["assets.url"] : "/:class/:id/:basename:no_original_style.:extension", 
                     :path => Radiant::Config["assets.path"] ? Radiant::Config["assets.path"] : ":rails_root/public/:class/:id/:basename:no_original_style.:extension"
                                  
