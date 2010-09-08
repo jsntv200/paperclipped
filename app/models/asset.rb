@@ -158,7 +158,7 @@ class Asset < ActiveRecord::Base
     end
 
     def s3_credentials
-      path = "#{RAILS_ROOT}/config/initializers/s3.yml"
+      path = "#{RAILS_ROOT}/config/s3.yml"
       
       unless File.exists?(path)
         path = {
