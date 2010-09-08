@@ -122,5 +122,4 @@ class Admin::AssetsController < Admin::ResourceController
     clear_model_cache
     render :nothing => true
   end
-
 end
