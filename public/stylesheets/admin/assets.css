@@ -1,4 +1,4 @@
-#content { padding-bottom: 50px;} /*fix main css for #actions part*/
+#content { padding-bottom: 46px; } /*fix main css for #actions part*/
 
 .asset_filters {
   background: #ccc;
@@ -11,27 +11,27 @@
 
 
 td.asset { width: 72px; }
-
-td.asset a {   }
 td.asset a img { padding: 2px; background-color: #eee; border: 1px solid #ccc;}
 
 td.asset-title, td.tag-name { font-size: 115%; font-weight: bold;}
 td.asset-title a, td.tag-name a { text-decoration: none; color: black; }
 
 td.asset-tags a { color: black; text-decoration:none; }
-table td.asset-title a:hover, td.asset-tags a:hover, td.tag-name a:hover {
- color: blue; text-decoration: underline; }
+table td.asset-title a:hover, td.asset-tags a:hover, td.tag-name a:hover { color: blue; text-decoration: underline; }
 table .caption { color: #9eb3bf; font-style: italic; font-weight: normal; margin: 10px; }
 
 table th.content_type { width: 120px; }
 table td.content_type { width: 120px; color: #9eb3bf; font-style: italic; font-weight: normal; }
-table td.add-to-bucket { width: 90px;}
+table td.add-to-bucket { width: 100px;}
 table td.add-to-bucket a { background: url("../../images/admin/plus.png") no-repeat scroll 4px 0 transparent; color: black; font-size: 80%; padding: 0 0 0 20px; text-decoration: none;}
 
 #asset-bucket {
   width: 70%;
-  padding: 20px;
-  cursor: move;
+  padding: 0 20px 20px;
+  border: solid 10px #7E7E7E;
+  -moz-border-radius:8px;
+  -webkit-border-radius:8px;
+  border-radius:8px;
 }
 
 #assets-container, #asset-bucket {
@@ -45,24 +45,26 @@ table td.add-to-bucket a { background: url("../../images/admin/plus.png") no-rep
 }
 #content #asset-bucket form label { color: black; text-shadow: none; }
 #content #asset-bucket #search-assets form label { display: inline; }
-#close-link { margin-top: 10px; }
 
 #assets {
   clear: both;
   position: relative;
-  margin-bottom: 4px;
   padding: 0;
   cursor: default;
   min-height: 150px;
   height: auto !important;
   height: 150px;
-  background: white;
 }
 
 #asset-bucket, #assets .pane {
   -webkit-box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
   -box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
+}
+#asset-bucket {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 5px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 5px;
+  -box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 5px;
 }
 
 #assets .pane,
@@ -86,22 +88,29 @@ table td.add-to-bucket a { background: url("../../images/admin/plus.png") no-rep
 #asset-tabs { margin: 0  }
 #asset-tabs .asset-tab {
   background-color: #CAC8C0;
-  color: #7F7F7F;
-  border-top-left-radius: 6px 6px;
-  border-top-right-radius: 6px 6px;
+  color: #7F7F7F;  
   display: inline-block;
   font-weight: bold;
   text-align: left;
   font-size: 90%;
   margin-right: 5px;
-  padding: 7px 10px 4px; text-decoration: none; text-transform: titlecase; outline: none; -moz-outline: none;
+  padding: 7px 10px 4px;
+  text-decoration: none;
+  text-transform: titlecase;
+  outline: none;
+  -moz-outline: none;
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-top-right-radius: 6px;  
+  -moz-border-top-left-radius: 6px;
+  -moz-border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 #asset-tabs .asset-tab.here {
   background-color: white;
   color: black;
 }
-
 
 #bucket ul, #page-attachments ul, #search-results ul { list-style: none; margin: 0; padding: 0 10px 0 0;}
 
@@ -131,6 +140,7 @@ p.info { font-size: 85%; }
 .asset-buttons { font-size: 80%; }
 
 table#site-map td.assets, table#site-map th.assets  { text-align: right; border: 1px solid red;}
+#assets_table tfoot td { text-align:center !important; padding:15px 0 !important; }
 
 #upload-assets { }
 #upload-assets a { color: black; font-weight: bold; text-decoration: none; }
@@ -155,7 +165,33 @@ table#site-map td.assets, table#site-map th.assets  { text-align: right; border:
 .move a { cursor: move; }
 
 #show-bucket { font-size: 85%; padding: 0 0 0 4px; }
-#content form #show-bucket a { color: #44e; }
+#content form #show-bucket a { color: #06c; }
 
-
-.pagination { float: right; margin: 14px 10px 0 0;}
+/* Ripped from the #actions .pagination a ...*/
+#close-link {
+  float:left;
+  background: #fff url(/images/admin/shadow.png) repeat-x;
+  font-size: 12px;
+  line-height: 17px;
+  margin:0;
+  padding:8px 12px;
+  -webkit-box-shadow: 1px 2px 4px #333333;
+  -moz-box-shadow: 1px 2px 4px #333333;
+  box-shadow: 1px 2px 4px #333333; 
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+}
+#close-link:hover {
+  background: #fff url(/images/admin/buttons_background.png) repeat-x;
+}
+#close-link a {
+  color: #000;
+  font-weight:normal;
+  text-shadow: white 1px 1px 1px;
+  text-decoration:none;  
+}
+#close-link:hover a {
+  color: #06c !important;
+  text-shadow: none;
+}
