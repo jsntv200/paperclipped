@@ -171,8 +171,8 @@ class Asset < ActiveRecord::Base
                     :whiny => false,
                     :storage => Radiant::Config["assets.storage"] == "s3" ? :s3 : :filesystem, 
                     :s3_credentials => {
-                      :access_key_id => Radiant::Config["assets.s3.key"],
-                      :secret_access_key => Radiant::Config["assets.s3.secret"]
+                      :access_key_id => Radiant::Config["assets.s3.key"] || ENV['S3_KEY'],
+                      :secret_access_key => Radiant::Config["assets.s3.secret"] || ENV['S3_SECRET']
                     },
                     :bucket => Radiant::Config["assets.s3.bucket"],
                     :url => Radiant::Config["assets.url"] ? Radiant::Config["assets.url"] : "/:class/:id/:basename:no_original_style.:extension", 
