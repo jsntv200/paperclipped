@@ -178,15 +178,15 @@ class Asset < ActiveRecord::Base
   end
   
   # order_by 'title'
- 
   has_attached_file :asset,
-                    :processors => lambda {|instance| instance.choose_processors },   # this allows us to set processors per file type, and to add more in other extensions
-                    :styles => lambda { thumbnail_definitions },                      # and this lets extensions add thumbnailers (and also usefully defers the call)
-                    :whiny => false,
-                    :storage => Radiant::Config["assets.storage"] == "s3" ? :s3 : :filesystem, 
+                    :processors     => lambda {|instance| instance.choose_processors }, # this allows us to set processors per file type, and to add more in other extensions
+                    :styles         => lambda { thumbnail_definitions },                # and this lets extensions add thumbnailers (and also usefully defers the call)
+                    :whiny          => false,
+                    :storage        => Radiant::Config["assets.storage"].to_sym || :filesystem, 
                     :s3_credentials => s3_credentials,
-                    :url => Radiant::Config["assets.url"] ? Radiant::Config["assets.url"] : "/:class/:id/:basename:no_original_style.:extension", 
-                    :path => Radiant::Config["assets.path"] ? Radiant::Config["assets.path"] : ":rails_root/public/:class/:id/:basename:no_original_style.:extension"
+                    :s3_host_alias  => Radiant::Config["assets.s3.host_alias"],
+                    :url            => Radiant::Config["assets.url"]  || "/:class/:id/:basename:no_original_style.:extension", 
+                    :path           => Radiant::Config["assets.path"] || ":rails_root/public/:class/:id/:basename:no_original_style.:extension"
                                  
   has_many :page_attachments, :dependent => :destroy
   has_many :pages, :through => :page_attachments
@@ -205,8 +205,8 @@ class Asset < ActiveRecord::Base
   register_type :image, %w[image/png image/x-png image/jpeg image/pjpeg image/jpg image/gif]
   register_type :video, %w[video/mpeg video/mp4 video/ogg video/quicktime video/x-ms-wmv video/x-flv]
   register_type :audio, %w[audio/mpeg audio/mpg audio/ogg application/ogg audio/x-ms-wma audio/vnd.rn-realaudio audio/x-wav]
-  register_type :swf, %w[application/x-shockwave-flash]
-  register_type :pdf, %w[application/pdf]
+  register_type :swf,   %w[application/x-shockwave-flash]
+  register_type :pdf,   %w[application/pdf]
  
   # alias for backwards-compatibility: movie can be video or swf
   register_type :movie, Mime::SWF.all_types + Mime::VIDEO.all_types
@@ -217,7 +217,7 @@ class Asset < ActiveRecord::Base
       when self.pdf?   : "/images/assets/pdf_#{size.to_s}.png"
       when self.movie? : "/images/assets/movie_#{size.to_s}.png"
       when self.video? : "/images/assets/movie_#{size.to_s}.png"
-      when self.swf? : "/images/assets/movie_#{size.to_s}.png" #TODO: special icon for swf-files
+      when self.swf?   : "/images/assets/movie_#{size.to_s}.png" #TODO: special icon for swf-files
       when self.audio? : "/images/assets/audio_#{size.to_s}.png"
       when self.other? : "/images/assets/doc_#{size.to_s}.png"
     else
@@ -285,5 +285,4 @@ class Asset < ActiveRecord::Base
     def assign_title
       self.title = basename if title.blank?
     end
-    
 end
